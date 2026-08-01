@@ -157,9 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Lease Contact Form Simulation ---
+  // --- Lease Contact Form (Google Sheets 연동) ---
   const leaseForm = document.getElementById('lease-form');
   const toastMessage = document.getElementById('toast-message');
+
+  // ↓↓↓ Apps Script 배포 후 발급받은 웹 앱 URL을 여기에 붙여넣으세요 ↓↓↓
+  const https://script.google.com/macros/s/AKfycbztSHKQfBGIaJCJUfBdEfaWWC-ZNQm6-oFV4DETHOAAcIzkpvr6auAsa2r6RLnz2fzR/exec = 'YOUR_DEPLOYED_WEB_APP_URL_HERE';
 
   if (leaseForm) {
     leaseForm.addEventListener('submit', (e) => {
@@ -168,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Basic validation check
       const nameInput = document.getElementById('user-name');
       const phoneInput = document.getElementById('user-phone');
+      const typeInput = document.getElementById('inquiry-type');
       const msgInput = document.getElementById('message');
       const agreement = document.getElementById('privacy-agreement');
 
@@ -181,38 +185,55 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Simulate API submit button loading
       const submitBtn = leaseForm.querySelector('.btn-submit');
       const originalBtnText = submitBtn.innerHTML;
       submitBtn.disabled = true;
       submitBtn.style.opacity = '0.7';
       submitBtn.innerHTML = `<span>전송 중...</span> <i data-lucide="loader-2" class="animate-spin"></i>`;
-      
+
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
 
-      setTimeout(() => {
-        // Success response
+      const formData = {
+        name: nameInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        type: typeInput ? typeInput.value : '',
+        message: msgInput.value.trim()
+      };
+
+      const resetSubmitBtn = () => {
         submitBtn.disabled = false;
         submitBtn.style.opacity = '';
         submitBtn.innerHTML = originalBtnText;
         if (typeof lucide !== 'undefined') {
           lucide.createIcons();
         }
+      };
 
-        // Show Toast Notification
+      const showToast = () => {
         toastMessage.classList.add('show');
-        
-        // Reset Form
         leaseForm.reset();
-
-        // Hide Toast after 3.5s
         setTimeout(() => {
           toastMessage.classList.remove('show');
         }, 3500);
+      };
 
-      }, 1500);
+      // text/plain 으로 보내면 Apps Script 쪽에서 CORS preflight 없이 바로 받을 수 있습니다.
+      fetch(GOOGLE_SHEET_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(formData)
+      })
+        .then(() => {
+          resetSubmitBtn();
+          showToast();
+        })
+        .catch((error) => {
+          console.error('문의 전송 실패:', error);
+          resetSubmitBtn();
+          alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        });
     });
   }
 });
