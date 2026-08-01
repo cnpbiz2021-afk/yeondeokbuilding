@@ -225,9 +225,27 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(formData)
       })
-        .then(() => {
-          resetSubmitBtn();
-          showToast();
+        .then((response) => response.text())
+        .then((text) => {
+          let result;
+          try {
+            result = JSON.parse(text);
+          } catch (parseErr) {
+            // Apps Script가 JSON이 아닌 응답(예: 로그인 페이지 HTML)을 보낸 경우
+            console.error('예상치 못한 응답(배포 액세스 권한을 확인하세요):', text);
+            resetSubmitBtn();
+            alert('전송에 실패했습니다. 관리자에게 문의해 주세요. (응답 형식 오류)');
+            return;
+          }
+
+          if (result.result === 'success') {
+            resetSubmitBtn();
+            showToast();
+          } else {
+            console.error('Apps Script 오류:', result.message);
+            resetSubmitBtn();
+            alert('전송 중 오류가 발생했습니다. (' + (result.message || '알 수 없는 오류') + ')');
+          }
         })
         .catch((error) => {
           console.error('문의 전송 실패:', error);
