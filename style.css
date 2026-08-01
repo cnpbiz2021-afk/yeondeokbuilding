@@ -1272,14 +1272,29 @@ img {
     display: none; /* Hide slider arrows on mobile for clean screen spacing */
   }
   
+  .swiper-slide {
+    padding-bottom: 22vh;
+  }
+
   .scroll-down-btn {
     right: 50%;
     transform: translateX(50%);
-    bottom: 8vh;
+    bottom: 4vh;
+    gap: 8px;
   }
   
   .scroll-down-btn:hover {
     transform: translateX(50%) translateY(4px);
+  }
+
+  .scroll-down-btn .btn-text {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+  }
+
+  .scroll-arrow {
+    width: 16px;
+    height: 16px;
   }
   
   .bg-number {
