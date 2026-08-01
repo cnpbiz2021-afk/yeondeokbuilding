@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastMessage = document.getElementById('toast-message');
 
   // ↓↓↓ Apps Script 배포 후 발급받은 웹 앱 URL을 여기에 붙여넣으세요 ↓↓↓
-  const https://script.google.com/macros/s/AKfycbztSHKQfBGIaJCJUfBdEfaWWC-ZNQm6-oFV4DETHOAAcIzkpvr6auAsa2r6RLnz2fzR/exec = 'YOUR_DEPLOYED_WEB_APP_URL_HERE';
+  const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbztSHKQfBGIaJCJUfBdEfaWWC-ZNQm6-oFV4DETHOAAcIzkpvr6auAsa2r6RLnz2fzR/exec';
 
   if (leaseForm) {
     leaseForm.addEventListener('submit', (e) => {
