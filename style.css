@@ -396,6 +396,17 @@ img {
   position: relative;
 }
 
+.slogan-kicker {
+  display: block;
+  font-family: var(--font-ko);
+  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--primary-color);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  margin-bottom: 14px;
+}
+
 .slogan-ko {
   font-size: clamp(0.95rem, 2vw, 1.25rem);
   font-weight: 300;
