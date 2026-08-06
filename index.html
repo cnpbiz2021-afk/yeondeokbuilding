@@ -71,6 +71,7 @@
       
       <nav class="nav-menu">
         <a href="#tenants" class="nav-link">TENANTS</a>
+        <a href="#floor-area" class="nav-link">FLOOR</a>
         <a href="#about" class="nav-link">STATS</a>
         <a href="#location" class="nav-link">LOCATION</a>
         <a href="#contact" class="nav-link">CONTACT</a>
@@ -267,6 +268,70 @@
     </div>
   </section>
 
+  <!-- Floor Area Interactive Section -->
+  <section id="floor-area" class="floor-area-section scroll-section">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-subtitle-en">FLOOR PLAN</span>
+        <h2 class="section-title">FLOOR AREA <span class="section-title-ko">층별 면적 안내</span></h2>
+        <div class="title-line center"></div>
+        <p class="floor-area-desc">건물 사진 위 각 층에 마우스를 올려보세요 (모바일은 터치). 층별 면적을 확인하실 수 있습니다.</p>
+      </div>
+
+      <div class="floor-diagram-wrapper animate-fade-in">
+        <img src="images/building_floor_diagram.png" alt="연덕빌딩 외관 및 층별 면적 안내" class="floor-diagram-image">
+
+        <!-- 3F Hotspot: upper tinted glass window band -->
+        <div class="floor-hotspot hotspot-3f" style="top: 24.5%; left: 34.5%; width: 46%; height: 16%;" tabindex="0">
+          <span class="hotspot-marker"></span>
+          <div class="hotspot-tooltip">
+            <span class="tooltip-floor">3F <span class="tooltip-floor-ko">3층</span></span>
+            <span class="tooltip-area">약 74m²</span>
+            <span class="tooltip-note">공용면적 포함</span>
+          </div>
+        </div>
+
+        <!-- 2F Hotspot: folding glass window band -->
+        <div class="floor-hotspot hotspot-2f" style="top: 50%; left: 36%; width: 45%; height: 17%;" tabindex="0">
+          <span class="hotspot-marker"></span>
+          <div class="hotspot-tooltip">
+            <span class="tooltip-floor">2F <span class="tooltip-floor-ko">2층</span></span>
+            <span class="tooltip-area">약 74m²</span>
+            <span class="tooltip-note">공용면적 포함</span>
+          </div>
+        </div>
+
+        <!-- 1F Hotspot: glass entrance lobby -->
+        <div class="floor-hotspot hotspot-1f" style="top: 74.5%; left: 36%; width: 45%; height: 18%;" tabindex="0">
+          <span class="hotspot-marker"></span>
+          <div class="hotspot-tooltip">
+            <span class="tooltip-floor">1F <span class="tooltip-floor-ko">1층</span></span>
+            <span class="tooltip-area">약 74m²</span>
+            <span class="tooltip-note">공용면적 포함</span>
+          </div>
+        </div>
+
+        <!-- B1 Hotspot: stairwell entrance -->
+        <div class="floor-hotspot hotspot-b1" style="top: 77%; left: 16.5%; width: 17%; height: 20.5%;" tabindex="0">
+          <span class="hotspot-marker"></span>
+          <div class="hotspot-tooltip">
+            <span class="tooltip-floor">B1 <span class="tooltip-floor-ko">지하1층</span></span>
+            <span class="tooltip-area">약 74m²</span>
+            <span class="tooltip-note">공용면적 포함</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="floor-legend">
+        <span class="legend-item">B1 · 지하1층</span>
+        <span class="legend-item">1F · 1층</span>
+        <span class="legend-item">2F · 2층</span>
+        <span class="legend-item">3F · 3층</span>
+        <span class="legend-item legend-note">전 층 약 74m² (공용면적 포함, 동일 면적)</span>
+      </div>
+    </div>
+  </section>
+
   <!-- Statistics Section -->
   <section id="about" class="stats-section">
     <div class="container stats-container">
@@ -413,6 +478,7 @@
         </div>
         <div class="footer-links">
           <a href="#tenants">TENANTS</a>
+          <a href="#floor-area">FLOOR</a>
           <a href="#about">STATS</a>
           <a href="#location">LOCATION</a>
           <a href="#contact">CONTACT</a>
@@ -438,6 +504,29 @@
 
   <!-- Swiper.js Script -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Floor Area Hotspot: touch device tap support -->
+  <script>
+    document.querySelectorAll('.floor-hotspot').forEach(function (spot) {
+      spot.addEventListener('click', function (e) {
+        var isTouch = window.matchMedia('(hover: none)').matches;
+        if (!isTouch) return;
+        e.preventDefault();
+        var alreadyActive = spot.classList.contains('active');
+        document.querySelectorAll('.floor-hotspot.active').forEach(function (el) {
+          el.classList.remove('active');
+        });
+        if (!alreadyActive) spot.classList.add('active');
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.floor-hotspot')) {
+        document.querySelectorAll('.floor-hotspot.active').forEach(function (el) {
+          el.classList.remove('active');
+        });
+      }
+    });
+  </script>
 
   <!-- Custom JS -->
   <script src="script.js"></script>
